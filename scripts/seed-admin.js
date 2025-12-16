@@ -7,7 +7,7 @@ const { db, initDb } = require("../src/db");
   await initDb();
   await db.read();
 
-  const email = "admin@empresa.com";
+  const email = "admin@bnel.com.br";
   const exists = db.data.users.some((u) => u.email === email);
   if (exists) {
     console.log("Admin já existe.");

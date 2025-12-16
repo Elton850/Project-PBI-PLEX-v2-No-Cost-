@@ -40,4 +40,21 @@ function clearAuthCookie(res) {
   res.clearCookie(COOKIE_NAME);
 }
 
-module.exports = { signToken, authRequired, adminOnly, setAuthCookie, clearAuthCookie };
+function signResetToken(userId) {
+  return jwt.sign(
+    { id: userId, purpose: "reset" },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" }
+  );
+}
+
+function verifyResetToken(token) {
+  const payload = jwt.verify(token, process.env.JWT_SECRET);
+  if (payload.purpose !== "reset") throw new Error("Invalid token purpose");
+  return payload;
+}
+
+module.exports = {
+  signToken, authRequired, adminOnly, setAuthCookie, clearAuthCookie,
+  signResetToken, verifyResetToken
+};
