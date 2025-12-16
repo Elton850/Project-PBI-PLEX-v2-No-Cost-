@@ -1,0 +1,41 @@
+<%
+  const isEdit = !!dept;
+
+  const errHtml = (errors || []).length
+    ? `<div class="warn">${errors.map(e => e.msg).join("<br/>")}</div>`
+    : "";
+
+  const body = `
+    <div class="topbar">
+      <div>
+        <h2>${isEdit ? "Editar Departamento" : "Novo Departamento"}</h2>
+        <div class="muted">Administração</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a class="chip" href="/admin/departments">Voltar</a>
+      </div>
+    </div>
+
+    ${errHtml}
+
+    <form class="card" style="width:100%; max-width:760px;"
+      method="post"
+      action="${isEdit ? `/admin/departments/${dept.id}/edit` : `/admin/departments/new`}">
+
+      <label>Nome</label>
+      <input name="name" value="${dept?.name || ""}" required />
+
+      <label>Link PLEX (iframe)</label>
+      <input name="plexUrl" value="${dept?.plexUrl || ""}" required />
+
+      <label>Link GRD (iframe)</label>
+      <input name="grdUrl" value="${dept?.grdUrl || ""}" required />
+
+      <label>Link UGB (iframe)</label>
+      <input name="ugbUrl" value="${dept?.ugbUrl || ""}" required />
+
+      <button type="submit">${isEdit ? "Salvar" : "Cadastrar"}</button>
+    </form>
+  `;
+%>
+<%- include("layout", { title: isEdit ? "Editar Departamento" : "Novo Departamento", body, me, module: null, currentDept: null }) %>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="/public/styles.css"/>
+  <title><%= title || "Portal BI" %></title>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+            <!-- troque para /public/img/logo-betel.svg quando tiver a oficial -->
+            <img src="/public/img/logo-placeholder.svg" alt="Benel" />
+        </div>
+        <div class="title">
+            <b>Portal BI</b>
+            <span>Benel</span>
+        </div>
+        </div>
+
+      <nav class="menu">
+        <a class="<%= module==='PLEX'?'active':'' %>" href="/?module=PLEX<%= currentDept ? '&deptId='+currentDept.id : '' %>">PLEX</a>
+        <a class="<%= module==='GRD'?'active':'' %>" href="/?module=GRD<%= currentDept ? '&deptId='+currentDept.id : '' %>">GRD</a>
+        <a class="<%= module==='UGB'?'active':'' %>" href="/?module=UGB<%= currentDept ? '&deptId='+currentDept.id : '' %>">UGB</a>
+
+        <% if (me?.isAdmin) { %>
+          <div class="sep"></div>
+          <a href="/admin/users">Usuários</a>
+          <a href="/admin/departments">Departamentos</a>
+        <% } %>
+      </nav>
+
+      <form method="post" action="/logout" class="logout">
+        <button class="btn-danger" type="submit">Sair</button>
+      </form>
+    </aside>
+
+    <main class="content">
+      <%- body %>
+    </main>
+  </div>
+</body>
+</html>

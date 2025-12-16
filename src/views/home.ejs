@@ -1,0 +1,31 @@
+<%
+  const body = `
+    <div class="topbar">
+      <div>
+        <h2>${module}</h2>
+        <div class="muted">${me.name} (${me.email})</div>
+      </div>
+      <div class="dept-switch">
+        ${(allowedDepts || []).map(d => `
+          <a class="chip ${currentDept && currentDept.id===d.id ? 'chip-active':''}"
+             href="/?module=${module}&deptId=${d.id}">
+            ${d.name}
+          </a>
+        `).join("")}
+      </div>
+    </div>
+
+    ${!canView ? `<div class="warn">Você não tem permissão para visualizar ${module}.</div>` : ""}
+
+    ${canView && !currentDept ? `<div class="warn">Nenhum departamento vinculado ao seu usuário.</div>` : ""}
+
+    ${canView && currentDept && !iframeUrl ? `<div class="warn">Link do relatório não configurado para este departamento.</div>` : ""}
+
+    ${canView && iframeUrl ? `
+      <div class="frame-wrap">
+        <iframe src="${iframeUrl}" allowfullscreen></iframe>
+      </div>
+    ` : ""}
+  `;
+%>
+<%- include("layout", { title: "Home", body, me, module, currentDept }) %>

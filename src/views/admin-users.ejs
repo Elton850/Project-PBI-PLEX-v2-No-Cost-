@@ -1,0 +1,60 @@
+<%
+  function deptNames(user) {
+    const ids = user.departmentIds || [];
+    const names = ids
+      .map(id => (depts.find(d => d.id === id) || {}).name)
+      .filter(Boolean);
+    return names.length ? names.join(", ") : "-";
+  }
+
+  const body = `
+    <div class="topbar">
+      <div>
+        <h2>Usuários</h2>
+        <div class="muted">Administração</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <a class="chip chip-active" href="/admin/users/new">Novo usuário</a>
+      </div>
+    </div>
+
+    <div class="card" style="width:100%; max-width:1100px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>CPF</th>
+            <th>Ativo</th>
+            <th>Admin</th>
+            <th>Permissões</th>
+            <th>Departamentos</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(users || []).map(u => `
+            <tr>
+              <td>${u.name}</td>
+              <td>${u.email}</td>
+              <td>${u.type || "-"}</td>
+              <td>${u.type === "EFETIVO" ? (u.cpf || "-") : "-"}</td>
+              <td>${u.isActive ? "SIM" : "NÃO"}</td>
+              <td>${u.isAdmin ? "SIM" : "NÃO"}</td>
+              <td>
+                ${u.permissions?.PLEX ? "PLEX " : ""}
+                ${u.permissions?.GRD ? "GRD " : ""}
+                ${u.permissions?.UGB ? "UGB" : ""}
+                ${(!u.permissions?.PLEX && !u.permissions?.GRD && !u.permissions?.UGB) ? "-" : ""}
+              </td>
+              <td>${deptNames(u)}</td>
+              <td><a class="chip" href="/admin/users/${u.id}/edit">Editar</a></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+%>
+<%- include("layout", { title: "Usuários", body, me, module: null, currentDept: null }) %>

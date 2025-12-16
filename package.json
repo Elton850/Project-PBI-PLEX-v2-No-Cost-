@@ -1,0 +1,25 @@
+{
+  "name": "portal-bi",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "seed:admin": "node scripts/seed-admin.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "express-validator": "^7.3.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "lowdb": "^7.0.1",
+    "nanoid": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

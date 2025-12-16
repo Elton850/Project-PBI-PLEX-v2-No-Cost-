@@ -1,0 +1,110 @@
+<%
+  const isEdit = !!user;
+  const selectedIds = new Set((user?.departmentIds || []));
+
+  function checked(v) { return v ? "checked" : ""; }
+
+  const errHtml = (errors || []).length
+    ? `<div class="warn">${errors.map(e => e.msg).join("<br/>")}</div>`
+    : "";
+
+  const body = `
+    <div class="topbar">
+      <div>
+        <h2>${isEdit ? "Editar Usuário" : "Novo Usuário"}</h2>
+        <div class="muted">Administração</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a class="chip" href="/admin/users">Voltar</a>
+      </div>
+    </div>
+
+    ${errHtml}
+
+    <form class="card" style="width:100%; max-width:760px;"
+      method="post"
+      action="${isEdit ? `/admin/users/${user.id}/edit` : `/admin/users/new`}">
+
+      <label>Nome</label>
+      <input name="name" value="${user?.name || ""}" required />
+
+      <label>Email</label>
+      <input name="email" type="email" value="${user?.email || ""}" required />
+
+      <label>Tipo</label>
+      <select name="type" id="typeSelect" required>
+        <option value="EFETIVO" ${user?.type === "EFETIVO" ? "selected" : ""}>EFETIVO</option>
+        <option value="PJ" ${user?.type === "PJ" ? "selected" : ""}>PJ</option>
+      </select>
+
+      <div id="cpfWrap">
+        <label>CPF (obrigatório para EFETIVO)</label>
+        <input name="cpf" value="${user?.cpf || ""}" placeholder="Somente números (11 dígitos)" />
+      </div>
+
+      <label>${isEdit ? "Senha (opcional para trocar)" : "Senha"}</label>
+      <input name="password" type="password" placeholder="${isEdit ? "Deixe em branco para manter" : ""}" ${isEdit ? "" : "required"} />
+
+      <div style="display:flex;gap:14px;flex-wrap:wrap; margin-top:6px;">
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" name="isActive" ${checked(user?.isActive ?? true)} />
+          Ativo
+        </label>
+
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" name="isAdmin" ${checked(user?.isAdmin)} />
+          Admin
+        </label>
+      </div>
+
+      <div class="sep"></div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:8px;">Permissões de relatórios</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" name="permPLEX" ${checked(user?.permissions?.PLEX)} />
+            PLEX
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" name="permGRD" ${checked(user?.permissions?.GRD)} />
+            GRD
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" name="permUGB" ${checked(user?.permissions?.UGB)} />
+            UGB
+          </label>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:8px;">Departamentos (pode marcar mais de 1)</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
+          ${(depts || []).map(d => `
+            <label style="display:flex;align-items:center;gap:8px; padding:10px; border:1px solid #223047; border-radius:10px; background:#0b0f14;">
+              <input type="checkbox" name="departmentIds" value="${d.id}" ${selectedIds.has(d.id) ? "checked" : ""} />
+              ${d.name}
+            </label>
+          `).join("")}
+        </div>
+        ${(depts || []).length ? "" : `<div class="muted" style="margin-top:8px;">Nenhum departamento cadastrado. Cadastre em Departamentos.</div>`}
+      </div>
+
+      <button class="btn-primary" type="submit">${isEdit ? "Salvar" : "Cadastrar"}</button>
+    </form>
+
+    <script>
+      const typeSelect = document.getElementById("typeSelect");
+      const cpfWrap = document.getElementById("cpfWrap");
+      function syncCpf() {
+        const v = typeSelect.value;
+        cpfWrap.style.display = (v === "EFETIVO") ? "block" : "none";
+      }
+      typeSelect.addEventListener("change", syncCpf);
+      syncCpf();
+    </script>
+  `;
+%>
+<%- include("layout", { title: isEdit ? "Editar Usuário" : "Novo Usuário", body, me, module: null, currentDept: null }) %>
