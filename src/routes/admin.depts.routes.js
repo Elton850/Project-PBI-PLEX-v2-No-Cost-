@@ -55,9 +55,9 @@ router.post("/admin/departments/:id/edit", authRequired, adminOnly, deptValidati
   }
 
   dept.name = req.body.name.trim();
-  dept.plexUrl = req.body.plexUrl.trim();
-  dept.grdUrl = req.body.grdUrl.trim();
-  dept.ugbUrl = req.body.ugbUrl.trim();
+  dept.plexUrl = (req.body.plexUrl || "").trim();
+  dept.grdUrl  = (req.body.grdUrl  || "").trim();
+  dept.ugbUrl  = (req.body.ugbUrl  || "").trim();
 
   await db.write();
   res.redirect("/admin/departments");

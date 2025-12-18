@@ -10,6 +10,7 @@ const authRoutes = require("./src/routes/auth.routes");
 const appRoutes = require("./src/routes/app.routes");
 const adminUsersRoutes = require("./src/routes/admin.users.routes");
 const adminDeptsRoutes = require("./src/routes/admin.depts.routes");
+const embedRoutes = require("./src/routes/embed.routes");
 
 async function main() {
   await initDb();
@@ -29,6 +30,7 @@ async function main() {
   app.use(appRoutes);
   app.use(adminUsersRoutes);
   app.use(adminDeptsRoutes);
+  app.use(embedRoutes);
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => console.log(`Server on :${port}`));

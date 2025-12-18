@@ -412,6 +412,58 @@ iframe{
   width: 420px;
 }
 
+.dept-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:flex-start;
+}
+
+/* cada item ocupa só o espaço dele */
+.dept-item{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(7,10,18,.55);
+
+  width: max-content;      /* não estica */
+  max-width: 100%;
+  white-space: nowrap;     /* mantém “TI”, “DP” etc. compactos */
+}
+
+/* se algum dept tiver nome gigante, não estourar layout */
+.dept-item{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ===== Power BI iframe mask (tapadeira) ===== */
+.pbi-frame-wrap{
+  position: relative;
+  height: calc(100vh - 120px);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.pbi-frame-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+/* destaca dept marcado (Chrome/Edge) */
+.dept-item:has(input:checked){
+  border-color: rgba(16,153,69,.55);
+  box-shadow: 0 0 0 2px rgba(16,153,69,.14) inset;
+}
+
 /* ===========================
    RESPONSIVE
    =========================== */

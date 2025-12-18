@@ -1,12 +1,11 @@
 const { body } = require("express-validator");
 
 function isValidCPF(cpf) {
-  // validação simples: apenas 11 dígitos (para demo). Se quiser, dá pra implementar CPF completo.
   const digits = (cpf || "").replace(/\D/g, "");
   return digits.length === 11;
 }
 
-const userValidation = [
+const baseUserValidation = [
   body("name").trim().isLength({ min: 2 }).withMessage("Nome inválido."),
   body("email").trim().isEmail().withMessage("Email inválido."),
   body("type").isIn(["EFETIVO", "PJ"]).withMessage("Tipo inválido."),
@@ -20,11 +19,37 @@ const userValidation = [
   body("isAdmin").optional().isIn(["on", "off", "true", "false"])
 ];
 
-const deptValidation = [
-  body("name").trim().isLength({ min: 2 }).withMessage("Nome inválido."),
-  body("plexUrl").trim().isURL().withMessage("Link PLEX inválido."),
-  body("grdUrl").trim().isURL().withMessage("Link GRD inválido."),
-  body("ugbUrl").trim().isURL().withMessage("Link UGB inválido.")
+// CREATE: senha pode vir vazia (vai gerar uma temporária no backend)
+// Se vier preenchida, exige >= 6
+const userCreateValidation = [
+  ...baseUserValidation,
+  body("password")
+    .optional({ checkFalsy: true })
+    .isLength({ min: 6 }).withMessage("Senha deve ter no mínimo 6 caracteres.")
 ];
 
-module.exports = { userValidation, deptValidation };
+// EDIT: senha é opcional; se preencher, exige >= 6
+const userEditValidation = [
+  ...baseUserValidation,
+  body("password")
+    .optional({ checkFalsy: true })
+    .isLength({ min: 6 }).withMessage("Senha deve ter no mínimo 6 caracteres.")
+];
+
+const deptValidation = [
+  body("name").trim().isLength({ min: 2 }).withMessage("Nome inválido."),
+
+  body("plexUrl")
+    .optional({ checkFalsy: true })
+    .isURL().withMessage("Link PLEX inválido."),
+
+  body("grdUrl")
+    .optional({ checkFalsy: true })
+    .isURL().withMessage("Link GRD inválido."),
+
+  body("ugbUrl")
+    .optional({ checkFalsy: true })
+    .isURL().withMessage("Link UGB inválido.")
+];
+
+module.exports = { userCreateValidation, userEditValidation, deptValidation };

@@ -5,10 +5,11 @@
         <h2>${module}</h2>
         <div class="muted">${me.name} (${me.email})</div>
       </div>
+
       <div class="dept-switch">
         ${(allowedDepts || []).map(d => `
-          <a class="chip ${currentDept && currentDept.id===d.id ? 'chip-active':''}"
-             href="/?module=${module}&deptId=${d.id}">
+          <a class="chip ${currentDept && String(currentDept.id) === String(d.id) ? 'chip-active' : ''}"
+             href="/?module=${encodeURIComponent(module)}&deptId=${encodeURIComponent(d.id)}">
             ${d.name}
           </a>
         `).join("")}
@@ -19,13 +20,18 @@
 
     ${canView && !currentDept ? `<div class="warn">Nenhum departamento vinculado ao seu usuário.</div>` : ""}
 
-    ${canView && currentDept && !iframeUrl ? `<div class="warn">Link do relatório não configurado para este departamento.</div>` : ""}
+    ${canView && currentDept && !hasReportLink ? `<div class="warn">Link do relatório não configurado para este departamento.</div>` : ""}
 
-    ${canView && iframeUrl ? `
+    ${canView && hasReportLink && iframeUrl ? `
       <div class="frame-wrap">
-        <iframe src="${iframeUrl}" allowfullscreen></iframe>
+        <iframe
+          src="${iframeUrl}"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
       </div>
     ` : ""}
   `;
 %>
+
 <%- include("layout", { title: "Home", body, me, module, currentDept }) %>

@@ -43,23 +43,36 @@ router.get("/forgot-password", (req, res) => {
   res.render("forgot-password", { error: null });
 });
 
-// Validar email + cpf e gerar token de reset
+// Validar e gerar token de reset
 router.post("/forgot-password", async (req, res) => {
   try {
     const email = String(req.body.email || "").trim().toLowerCase();
     const cpf = String(req.body.cpf || "").replace(/\D/g, "");
+    const code = String(req.body.code || "").trim(); // PJ
 
     await db.read();
     const user = db.data.users.find((u) => u.email.toLowerCase() === email);
 
-    // Evita detalhe excessivo. Mas para demo, vamos ser práticos:
     if (!user) return res.status(400).render("forgot-password", { error: "Dados inválidos." });
     if (!user.isActive) return res.status(400).render("forgot-password", { error: "Usuário inativo." });
 
-    // Regra: se tiver CPF cadastrado, tem que bater
-    const hasCpf = !!(user.cpf && String(user.cpf).length === 11);
-    if (hasCpf && cpf !== user.cpf) {
-      return res.status(400).render("forgot-password", { error: "Dados inválidos." });
+    if (user.type === "EFETIVO") {
+      // EFETIVO: CPF obrigatório
+      const hasCpf = !!(user.cpf && String(user.cpf).length === 11);
+      if (!hasCpf) return res.status(400).render("forgot-password", { error: "CPF não cadastrado para este usuário." });
+      if (cpf !== user.cpf) return res.status(400).render("forgot-password", { error: "Dados inválidos." });
+    } else if (user.type === "PJ") {
+      // PJ: exige código gerado pelo admin
+      if (!user.resetCodeHash || !user.resetCodeExpiresAt) {
+        return res.status(400).render("forgot-password", { error: "Solicite ao admin um código de reset PJ." });
+      }
+      if (Date.now() > Number(user.resetCodeExpiresAt)) {
+        return res.status(400).render("forgot-password", { error: "Código expirado. Solicite outro ao admin." });
+      }
+      const ok = await bcrypt.compare(code, user.resetCodeHash);
+      if (!ok) return res.status(400).render("forgot-password", { error: "Dados inválidos." });
+    } else {
+      return res.status(400).render("forgot-password", { error: "Tipo de usuário inválido." });
     }
 
     const token = signResetToken(user.id);
@@ -102,6 +115,11 @@ router.post("/reset-password", async (req, res) => {
     if (!user) return res.status(400).render("reset-password", { error: "Token inválido.", token: "" });
 
     user.passwordHash = await bcrypt.hash(password, 10);
+
+    // se for PJ, invalida o código após reset (one-time)
+    user.resetCodeHash = null;
+    user.resetCodeExpiresAt = null;
+
     await db.write();
 
     return res.redirect("/login");

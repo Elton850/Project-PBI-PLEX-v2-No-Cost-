@@ -2,7 +2,7 @@
   function deptNames(user) {
     const ids = user.departmentIds || [];
     const names = ids
-      .map(id => (depts.find(d => d.id === id) || {}).name)
+      .map(id => (depts.find(d => String(d.id) === String(id)) || {}).name)
       .filter(Boolean);
     return names.length ? names.join(", ") : "-";
   }
@@ -31,6 +31,7 @@
             <th>Permissões</th>
             <th>Departamentos</th>
             <th>Ações</th>
+            <th>Reset PJ</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +50,20 @@
                 ${(!u.permissions?.PLEX && !u.permissions?.GRD && !u.permissions?.UGB) ? "-" : ""}
               </td>
               <td>${deptNames(u)}</td>
-              <td><a class="chip" href="/admin/users/${u.id}/edit">Editar</a></td>
+              <td>
+                <a class="chip" href="/admin/users/${u.id}/edit">Editar</a>
+              </td>
+              <td>
+                ${
+                  u.type === "PJ"
+                    ? `
+                      <form method="post" action="/admin/users/${u.id}/pj-reset-code" style="display:inline;">
+                        <button class="chip" type="submit">Gerar código</button>
+                      </form>
+                    `
+                    : `-`
+                }
+              </td>
             </tr>
           `).join("")}
         </tbody>
@@ -57,4 +71,5 @@
     </div>
   `;
 %>
+
 <%- include("layout", { title: "Usuários", body, me, module: null, currentDept: null }) %>

@@ -26,13 +26,13 @@
       <input name="name" value="${dept?.name || ""}" required />
 
       <label>Link PLEX (iframe)</label>
-      <input name="plexUrl" value="${dept?.plexUrl || ""}" required />
+      <input name="plexUrl" value="${dept?.plexUrl || ""}" placeholder="Opcional" />
 
       <label>Link GRD (iframe)</label>
-      <input name="grdUrl" value="${dept?.grdUrl || ""}" required />
+      <input name="grdUrl" value="${dept?.grdUrl || ""}" placeholder="Opcional" />
 
       <label>Link UGB (iframe)</label>
-      <input name="ugbUrl" value="${dept?.ugbUrl || ""}" required />
+      <input name="ugbUrl" value="${dept?.ugbUrl || ""}" placeholder="Opcional" />
 
       <button class="btn-primary" type="submit">${isEdit ? "Salvar" : "Cadastrar"}</button>
     </form>
