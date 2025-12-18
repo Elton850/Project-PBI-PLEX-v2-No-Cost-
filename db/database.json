@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "id": "97P-40OiLVUV2IS28Vc0a",
+      "name": "ELTON ALVES",
+      "email": "elton@bnel.com.br",
+      "type": "EFETIVO",
+      "cpf": "07468951357",
+      "isActive": true,
+      "isAdmin": true,
+      "departmentIds": [
+        "CUn5U4vWBm3dHB0RQFrF-",
+        "ptUhduVnjxUtIxN2QP047"
+      ],
+      "permissions": {
+        "PLEX": true,
+        "GRD": true,
+        "UGB": true
+      },
+      "passwordHash": "$2b$10$C000IoBZgOhizrCFzfsjt.Tyx6B0WRZV3hazscz7g0wLK5AgHxU9W"
+    },
+    {
+      "id": "FwOdKJGloMou0X-5MZrJh",
+      "name": "ABNER COSTA",
+      "email": "abner@bnel.com.br",
+      "type": "EFETIVO",
+      "cpf": "12345678910",
+      "isActive": true,
+      "isAdmin": false,
+      "departmentIds": [
+        "ptUhduVnjxUtIxN2QP047"
+      ],
+      "permissions": {
+        "PLEX": true,
+        "GRD": false,
+        "UGB": false
+      },
+      "passwordHash": "$2b$10$sVvOGsuzoS0GIth1ryLeieRNiFmqdA.QjfvugUG/wjoiH6JAKEoii"
+    },
+    {
+      "id": "Ya5UdjaRfiWaZ-kWIF0Py",
+      "name": "TESTE",
+      "email": "teste@teste.com",
+      "type": "PJ",
+      "cpf": "",
+      "isActive": true,
+      "isAdmin": false,
+      "departmentIds": [],
+      "permissions": {
+        "PLEX": false,
+        "GRD": false,
+        "UGB": false
+      },
+      "passwordHash": "$2b$10$3bzn0yO4V9c/NhoOhQDNS.xO1JPtEknExoI4nA7ZxPHtIM5IfGzSe",
+      "resetCodeHash": "$2b$10$V1IF6BYvKwdkU03a9PooSeGDBNMlQSGdXtb7YTLZFDDu52agkeek.",
+      "resetCodeExpiresAt": 1766077620046
+    }
+  ],
+  "departments": [
+    {
+      "id": "CUn5U4vWBm3dHB0RQFrF-",
+      "name": "DP",
+      "plexUrl": "https://app.powerbi.com/reportEmbed?reportId=6edb87c8-b897-4ff7-9960-b4e50d0bb0ea&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d",
+      "grdUrl": "https://app.powerbi.com/reportEmbed?reportId=08fd633f-9600-484e-ae1d-70a305332040&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d",
+      "ugbUrl": ""
+    },
+    {
+      "id": "ptUhduVnjxUtIxN2QP047",
+      "name": "TI",
+      "plexUrl": "",
+      "grdUrl": "",
+      "ugbUrl": ""
+    }
+  ]
+}
