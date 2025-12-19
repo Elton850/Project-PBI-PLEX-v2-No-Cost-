@@ -11,15 +11,14 @@
       "departmentIds": [
         "CUn5U4vWBm3dHB0RQFrF-",
         "ptUhduVnjxUtIxN2QP047",
-        "r6esY1JIst3_pI0N5sOr_",
-        "FORfOrw8WeDPFyT8sgepK"
+        "r6esY1JIst3_pI0N5sOr_"
       ],
       "permissions": {
         "PLEX": true,
         "GRD": true,
         "UGB": true
       },
-      "passwordHash": "$2b$10$C000IoBZgOhizrCFzfsjt.Tyx6B0WRZV3hazscz7g0wLK5AgHxU9W"
+      "passwordHash": "$2b$10$EXoBDCQ.ciuVkV6EzgsJXeFK5cPlpH.Epf2DZjR9JK.ZkSNzuypKy"
     },
     {
       "id": "FwOdKJGloMou0X-5MZrJh",
@@ -45,7 +44,7 @@
       "email": "teste@bnel.com.br",
       "type": "PJ",
       "cpf": "",
-      "isActive": true,
+      "isActive": false,
       "isAdmin": false,
       "departmentIds": [],
       "permissions": {
@@ -54,8 +53,8 @@
         "UGB": false
       },
       "passwordHash": "$2b$10$252ThlmySKaTnL3mQt40cOepXYli5TSifRUWZ3iP0pzqDL7CZsfBS",
-      "resetCodeHash": "$2b$10$a0rTXOKjEtQf31kVA36dh.oX/BsTaAYMiKUUWdY0x3UixihcrwOLK",
-      "resetCodeExpiresAt": 1766094546220
+      "resetCodeHash": "$2b$10$u4Irx3SEjlhPwPL5hP64QOxT6oZPJt40oNTrOTrug55BOWUTu0Xyi",
+      "resetCodeExpiresAt": 1766165960840
     }
   ],
   "departments": [
@@ -78,13 +77,6 @@
       "name": "DHO",
       "plexUrl": "https://app.powerbi.com/reportEmbed?reportId=12367a15-2da0-4dbc-8ee9-7475e2fccd81&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d",
       "grdUrl": "https://app.powerbi.com/reportEmbed?reportId=ca10133f-ffcc-4bb5-82c1-171d92055f1d&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d",
-      "ugbUrl": "https://app.powerbi.com/reportEmbed?reportId=8b5e783a-13ee-4cfb-a18c-e7aab8beec96&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d"
-    },
-    {
-      "id": "FORfOrw8WeDPFyT8sgepK",
-      "name": "INOVAÇÃO G&G",
-      "plexUrl": "",
-      "grdUrl": "",
       "ugbUrl": "https://app.powerbi.com/reportEmbed?reportId=8b5e783a-13ee-4cfb-a18c-e7aab8beec96&autoAuth=true&ctid=3a2ec98b-3bc0-4c83-b5e1-f7c4613cc12d"
     }
   ]

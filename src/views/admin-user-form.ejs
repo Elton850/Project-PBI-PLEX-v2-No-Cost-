@@ -34,7 +34,7 @@
         <input name="email" type="email" value="${user?.email || ""}" required />
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="max-width:220px;">
         <label>Tipo</label>
         <select name="type" id="typeSelect" required>
           <option value="EFETIVO" ${user?.type === "EFETIVO" ? "selected" : ""}>EFETIVO</option>
@@ -52,13 +52,13 @@
         <input name="password" type="password" placeholder="${isEdit ? "Deixe em branco para manter" : ""}" ${isEdit ? "" : "required"} />
       </div>
 
-      <div style="display:flex;gap:14px;flex-wrap:wrap; margin-top:6px;">
-        <label style="display:flex;align-items:center;gap:8px;">
+      <div class="flag-grid" style="margin-top:6px;">
+        <label class="flag-item">
           <input type="checkbox" name="isActive" ${checked(user?.isActive ?? true)} />
           Ativo
         </label>
 
-        <label style="display:flex;align-items:center;gap:8px;">
+        <label class="flag-item">
           <input type="checkbox" name="isAdmin" ${checked(user?.isAdmin)} />
           Admin
         </label>
@@ -66,22 +66,21 @@
 
       <div class="sep"></div>
 
-      <div>
-        <div style="font-weight:700;margin-bottom:8px;">Permissões de relatórios</div>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;">
-          <label style="display:flex;align-items:center;gap:8px;">
-            <input type="checkbox" name="permPLEX" ${checked(user?.permissions?.PLEX)} />
-            PLEX
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;">
-            <input type="checkbox" name="permGRD" ${checked(user?.permissions?.GRD)} />
-            GRD
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;">
-            <input type="checkbox" name="permUGB" ${checked(user?.permissions?.UGB)} />
-            UGB
-          </label>
-        </div>
+      <div class="flag-grid">
+        <label class="flag-item">
+          <input type="checkbox" name="permPLEX" ${checked(user?.permissions?.PLEX)} />
+          PLEX
+        </label>
+
+        <label class="flag-item">
+          <input type="checkbox" name="permGRD" ${checked(user?.permissions?.GRD)} />
+          GRD
+        </label>
+
+        <label class="flag-item">
+          <input type="checkbox" name="permUGB" ${checked(user?.permissions?.UGB)} />
+          UGB
+        </label>
       </div>
 
       <div class="sep"></div>

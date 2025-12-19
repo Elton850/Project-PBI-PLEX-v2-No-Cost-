@@ -20,12 +20,21 @@ function genTempPassword() {
 
 router.get("/admin/users", authRequired, adminOnly, async (req, res) => {
   await db.read();
-  res.render("admin-users", { me: { isAdmin: true }, users: db.data.users, depts: db.data.departments });
+  res.render("admin-users", {
+    me: { isAdmin: true },
+    users: db.data.users,
+    depts: db.data.departments
+  });
 });
 
 router.get("/admin/users/new", authRequired, adminOnly, async (req, res) => {
   await db.read();
-  res.render("admin-user-form", { me: { isAdmin: true }, user: null, depts: db.data.departments, errors: [] });
+  res.render("admin-user-form", {
+    me: { isAdmin: true },
+    user: null,
+    depts: db.data.departments,
+    errors: []
+  });
 });
 
 router.post("/admin/users/new", authRequired, adminOnly, userCreateValidation, async (req, res) => {
@@ -51,9 +60,28 @@ router.post("/admin/users/new", authRequired, adminOnly, userCreateValidation, a
     });
   }
 
+  // ===== CPF único (somente EFETIVO) =====
+  const type = req.body.type;
+  const cpf = type === "EFETIVO" ? String(req.body.cpf || "").replace(/\D/g, "") : "";
+
+  if (type === "EFETIVO") {
+    const cpfExists = db.data.users.some(
+      (u) => u.type === "EFETIVO" && String(u.cpf || "") === cpf
+    );
+
+    if (cpfExists) {
+      return res.status(400).render("admin-user-form", {
+        me: { isAdmin: true },
+        user: null,
+        depts: db.data.departments,
+        errors: [{ msg: "CPF já cadastrado para outro usuário." }]
+      });
+    }
+  }
+
   const deptIds = normalizeDeptIds(req.body.departmentIds);
 
-  // SENHA: agora é opcional no cadastro.
+  // SENHA: opcional no cadastro.
   // - Se vier preenchida: usa ela (>=6 validado pelo validator)
   // - Se vier vazia: gera uma senha temporária forte
   let plainPassword = String(req.body.password || "").trim();
@@ -68,8 +96,8 @@ router.post("/admin/users/new", authRequired, adminOnly, userCreateValidation, a
     id: nanoid(),
     name: req.body.name.trim(),
     email,
-    type: req.body.type,
-    cpf: req.body.type === "EFETIVO" ? (req.body.cpf || "").replace(/\D/g, "") : "",
+    type,
+    cpf,
     isActive: req.body.isActive === "on",
     isAdmin: req.body.isAdmin === "on",
     departmentIds: deptIds,
@@ -131,12 +159,31 @@ router.post("/admin/users/:id/edit", authRequired, adminOnly, userEditValidation
     });
   }
 
+  // ===== CPF único (somente EFETIVO), ignorando o próprio =====
+  const type = req.body.type;
+  const cpf = type === "EFETIVO" ? String(req.body.cpf || "").replace(/\D/g, "") : "";
+
+  if (type === "EFETIVO") {
+    const cpfExists = db.data.users.some(
+      (u) => u.id !== user.id && u.type === "EFETIVO" && String(u.cpf || "") === cpf
+    );
+
+    if (cpfExists) {
+      return res.status(400).render("admin-user-form", {
+        me: { isAdmin: true },
+        user,
+        depts: db.data.departments,
+        errors: [{ msg: "CPF já cadastrado para outro usuário." }]
+      });
+    }
+  }
+
   const deptIds = normalizeDeptIds(req.body.departmentIds);
 
   user.name = req.body.name.trim();
   user.email = email;
-  user.type = req.body.type;
-  user.cpf = req.body.type === "EFETIVO" ? (req.body.cpf || "").replace(/\D/g, "") : "";
+  user.type = type;
+  user.cpf = cpf;
   user.isActive = req.body.isActive === "on";
   user.isAdmin = req.body.isAdmin === "on";
   user.departmentIds = deptIds;
