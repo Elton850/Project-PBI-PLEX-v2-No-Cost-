@@ -545,6 +545,14 @@ iframe{
   gap: 8px;
 }
 
+/* Botão Telegram com destaque */
+#btnTelegram{
+  border-color: rgba(16,153,69,.35);
+}
+#btnTelegram:hover{
+  border-color: rgba(16,153,69,.60);
+}
+
 /* ===========================
    RESPONSIVE
    =========================== */

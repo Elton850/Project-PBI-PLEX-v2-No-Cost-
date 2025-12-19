@@ -14,6 +14,10 @@
           </a>
         `).join("")}
       </div>
+
+      <a class="chip" id="btnTelegram" href="#" title="Abrir Telegram e colar o print">
+        Telegram
+      </a>
     </div>
 
     ${!canView ? `<div class="warn">Você não tem permissão para visualizar ${module}.</div>` : ""}
@@ -35,3 +39,26 @@
 %>
 
 <%- include("layout", { title: "Home", body, me, module, currentDept }) %>
+
+<script>
+  (function(){
+    const btn = document.getElementById("btnTelegram");
+    if(!btn) return;
+
+    // coloque o link do grupo/canal aqui:
+    const TELEGRAM_GROUP_URL = "https://t.me/eltonalves850";
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const msg = encodeURIComponent(
+        "Print da PLEX do dia. (Win+Shift+S -> selecionar apenas o relatório -> colar aqui)"
+      );
+
+      // abre o grupo + mensagem pronta (fallback pro link direto)
+      window.open(`${TELEGRAM_GROUP_URL}`, "_blank", "noopener");
+      // Se preferir abrir Telegram web com share:
+      // window.open(`https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${msg}`, "_blank", "noopener");
+    });
+  })();
+</script>
