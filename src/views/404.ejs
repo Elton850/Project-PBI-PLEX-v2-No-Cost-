@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="/public/styles.css"/>
+  <title>404 - Página não encontrada</title>
+</head>
+<body class="center">
+  <div class="card" style="width:min(520px, 92vw);">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div>
+        <div style="font-weight:900;font-size:18px;letter-spacing:.2px;">404</div>
+        <div class="muted">Página não encontrada</div>
+      </div>
+      <div class="chip" style="opacity:.85;">Benel Portal BI</div>
+    </div>
+
+    <div class="warn" style="margin-top:12px;">
+      A rota informada não existe ou foi removida.
+    </div>
+
+    <div class="muted" style="margin-top:10px; line-height:1.35;">
+      <div><b>URL:</b> <span style="opacity:.9;"><%= path || "-" %></span></div>
+      <div style="margin-top:6px;"><b>Dica:</b> volte para a home e navegue pelo menu.</div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+      <a class="chip chip-active" href="/">Ir para Home</a>
+      <a class="chip" href="/login">Login</a>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="muted" style="font-size:12px;">
+      Se você acredita que isso é um erro, avise o administrador.
+    </div>
+  </div>
+</body>
+</html>

@@ -32,6 +32,10 @@ async function main() {
   app.use(adminDeptsRoutes);
   app.use(embedRoutes);
 
+  app.use((req, res) => {
+    return res.status(404).render("404", { path: req.originalUrl });
+  });
+
   const port = process.env.PORT || 3000;
   app.listen(port, () => console.log(`Server on :${port}`));
 }
